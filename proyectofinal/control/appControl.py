@@ -3,7 +3,6 @@ Created on 1/2/2015
 
 @author: Miguelm
 
-hweyyy
 '''
 
 from control import control
@@ -25,17 +24,16 @@ def reportarActivo():
 def addActivos():
     nombre=request.form.get('nombre', type=str)
     fcompra=request.form.get('fech_compra', type=str)
-    estado=request.form.get('estado', type=int)
-    nfactura=request.form.get('num_factura', type=str)
+    estado=request.form.get('estado', type=str)
+    nfactura=request.form.get('num_factura', type=int)
     modelo_serie=request.form.get('modelo_serie', type=str)
     marca_hardware=request.form.get('marca_hardware', type=str)
     codigo=request.form.get('codigo', type=str)
     descripcion=request.form.get('descripcion', type=str)
-    persona=request.form.get('persona_idpersona', type=str)
-    area=request.form.get('area_depart_idarea_depart', type=str)
+    responsable=request.form.get('responsable', type=str)
+    area=request.form.get('area', type=str)
 
-    Accionlabcon.Accionlabcon().selectPersonaArea(persona, area)
-    Accionlabcon.Accionlabcon().insertarActivo(nombre, fcompra, estado, nfactura, modelo_serie, marca_hardware, codigo,descripcion, persona, area)
+    Accionlabcon.Accionlabcon().insertarActivo(nombre, fcompra, estado, nfactura, modelo_serie, marca_hardware, codigo,descripcion, responsable, area)
     return redirect(url_for('reportarActivo'))
 
 @control.route("/delActivos")
@@ -49,9 +47,11 @@ def delActivos():
     marca_hardware=request.form.get('marca_hardware', type=str)
     codigo=request.form.get('codigo', type=str)
     descripcion=request.form.get('descripcion', type=str)
+    responsable=request.form.get('responsable', type=str)
+    area=request.form.get('area', type=str)
 
 
-    Accionlabcon.Accionlabcon().EliminarActivo(nombre, fcompra, estado, nfactura, modelo_serie, marca_hardware, codigo,descripcion)
+    Accionlabcon.Accionlabcon().EliminarActivo(nombre, fcompra, estado, nfactura, modelo_serie, marca_hardware, codigo,descripcion, responsable, area)
     return redirect(url_for('reportarActivo'))
 
 @control.route("/buscarActivo")
@@ -67,7 +67,7 @@ def buscarActivoAuto():
     print objr
     return objr
 
-@control.route("/personas")
+'''@control.route("/personas")
 def reportarPersona():
     objr=Accionlabcon.Accionlabcon().reportarPersona()  
     return render_template("formRegistroPersonas.html", data=objr)
@@ -99,5 +99,5 @@ def buscarPersonaAuto():
     nombre=str(request.args.get('term'))
     objr=Accionlabcon.Accionlabcon().buscarPersonaAuto(nombre) 
     print objr
-    return objr
+    return objr'''
 

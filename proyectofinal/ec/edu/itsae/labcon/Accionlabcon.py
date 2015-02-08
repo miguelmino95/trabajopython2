@@ -32,26 +32,20 @@ class Accionlabcon(DBconec.DBcon):
         reporte=con.fetchall()
         return reporte
     
-    def insertarActivo(self, nombre, fcompra, estado, nfactura, modelo_serie, marca_hardware, codigo, descripcion, persona, area):
+    def insertarActivo(self, nombre, fcompra, estado, nfactura, modelo_serie, marca_hardware, codigo, descripcion, responsable, area):
         con=self.conexion().connect()
-        sql=""" insert into activos (nombre, fech_compra, estado, num_factura, modelo_serie, marca_hardware, codigo, descripcion, persona_idpersona, area_depart_idarea_depart) 
-        values('%s', '%s', '&s' , %i, '%s', '%s', %i , '%s') """ % (nombre, fcompra, estado, nfactura, modelo_serie, marca_hardware, codigo, descripcion, persona, area)
+        sql=""" insert into activos (nombre, fech_compra, estado, num_factura, modelo_serie, marca_hardware, codigo, descripcion, responsable, area) 
+        values('%s', '%s', '&s' , %i, '%s', '%s', '%s' , '%s', '%s'. '%s') """ % (nombre, fcompra, estado, nfactura, modelo_serie, marca_hardware, codigo, descripcion, responsable, area)
         print sql
         with con:
             cursor=con.cursor()
-            cursor.execute(sql)
-      
-    def selectPersonaArea(self):
-        con=self.conexion().connect().cursor()
-        con.execute("select persona.nombre, area_depart.nombre_area from persona, area_depart ")
-        reporte=con.fetchall()
-        return reporte      
+            cursor.execute(sql)  
             
             
-    def EliminarActivo(self, nombre, fcompra, estado, nfactura, modelo_serie, marca_hardware, codigo, descripcion):
+    def EliminarActivo(self, nombre, fcompra, estado, nfactura, modelo_serie, marca_hardware, codigo, descripcion, responsable, area):
         con=self.conexion().connect()
-        sql=""" delete from activos where (nombre, fech_compra, estado, num_factura, modelo_serie, marca_hardware, codigo, descripcion) 
-        values('%s', '%s', '&s' , %i, '%s', '%s', %i , '%s') """ % (nombre, fcompra, estado, nfactura, modelo_serie, marca_hardware, codigo, descripcion)
+        sql=""" delete from activos where (nombre, fech_compra, estado, num_factura, modelo_serie, marca_hardware, codigo, descripcion, responsable, area) 
+        values('%s', '%s', '&s' , %i, '%s', '%s', '%s' , '%s', '%s'. '%s') """ % (nombre, fcompra, estado, nfactura, modelo_serie, marca_hardware, codigo, descripcion, responsable, area)
         print sql
         with con:
             cursor=con.cursor()
@@ -59,13 +53,13 @@ class Accionlabcon(DBconec.DBcon):
             
     def buscarActivoDato(self, datobuscado):
         con=self.conexion().connect().cursor() 
-        con.execute(""" select * from activos where upper(CONCAT(nombre,' ', num_factura,' ', modelo_serie)) like upper('%s') """ %("%"+datobuscado+"%"))
+        con.execute(""" select * from activos where upper(CONCAT(nombre,' ', num_factura,' ', modelo_serie,' ', responsable,' ', area)) like upper('%s') """ %("%"+datobuscado+"%"))
         reporte=con.fetchall()
         return reporte
     
     def buscarActivoAuto(self, datobuscado):
         con=self.conexion().connect().cursor()
-        con.execute(""" select CONCAT(nombre, ' ', num_factura, ' ', modelo_serie) as value, idpersona as id from persona where upper (CONCAT(nombre, ' ', num_factura, ' ', modelo)) like upper('%s')""" % ("%"+datobuscado+"%") )
+        con.execute(""" select CONCAT(nombre,' ', num_factura,' ', modelo_serie,' ', responsable,' ', area) as value, idpersona as id from persona where upper (CONCAT(nombre,' ', num_factura,' ', modelo_serie,' ', responsable,' ', area)) like upper('%s')""" % ("%"+datobuscado+"%") )
         reporte=con.fetchall()
         columna=('value', 'id')
         lista=[]
@@ -73,7 +67,7 @@ class Accionlabcon(DBconec.DBcon):
             lista.append(dict(zip(columna, row)))
         return json.dumps(lista, indent=2)
     
-    def reportarPersona(self):
+    '''def reportarPersona(self):
         con=self.conexion().connect().cursor()
         con.execute("select * from persona")
         reporte=con.fetchall()
@@ -102,7 +96,7 @@ class Accionlabcon(DBconec.DBcon):
         lista=[]
         for row in reporte:
             lista.append(dict(zip(columna, row)))
-        return json.dumps(lista, indent=2)
+        return json.dumps(lista, indent=2)'''
     
     
             
