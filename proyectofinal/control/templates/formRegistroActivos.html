@@ -1,0 +1,254 @@
+{% extends 'main.html'  %}
+
+{% block contenido %}
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registro de Activos Itsae-Cade</title>
+<link href="static/js/jquery.dataTables.min.css" rel="stylesheet">
+<script src="static/js/jquery.dataTables.min.js"></script>
+<script src="static/js/bootstrapPager.min.js"></script>
+
+
+<link href="static/css/jquery-ui.min.css" rel="stylesheet">
+<script src="static/js/jquery-ui.min.js"></script>
+
+<link href="static/css/datepicker.css" rel="stylesheet">
+<script src="static/js/bootstrap-datepicker.js"></script>
+
+<link href="static/css/jquery.validity.css" rel="stylesheet">
+<script src="static/js/jquery.validity.js"></script>
+
+<script type="text/javascript">
+$(function(){
+	$('#btnCrear').click(function(){
+		$('#regAct').show();
+		$('#btnCrear').hide();
+	});
+	
+	$('#btnCancelar').click(function(){
+		$('#regAct').hide();
+		$('#btnCrear').show();
+	});	
+	
+	$('#fcompra').datepicker({
+		format:"yyyy-mm-dd"
+		
+});
+	
+	$('#formact').validity(function(){
+		$('#nombre')
+			.require();
+		$('#numfactura')
+			.require()                          
+	        .match('number')                   
+	        .maxLength(30)	        
+		$('#modelo')
+			.require();          
+	   	
+		});
+});	
+
+</script>
+
+
+</head>
+<body>
+
+	<div id="regAct"  style="display: none;" >
+	
+
+		<div class="panel panel-primary" >
+			<div class="panel-heading">
+				<h3 class="panel-title">Formulario de Registro de Activos</h3>
+			</div>
+			<div class="panel-body">
+			<div id="formAdd" align="center">
+			<form action="/addActivos" id="formact" name="formact" class="form-horizontal" role="form" method="post">
+			
+			<div class="form-group">
+			<label for="nombre" class="col-sm-2 control-label">Nombre:</label>
+			<div class="col-sm-10">
+			<input type="text" id="nombre" name="nombre" class="form-control">
+			</div>
+			</div>
+			
+			
+			<div class="form-group">
+			<label for="fcompra" class="col-sm-2 control-label">Fecha de Compra:</label>
+			<div class="col-sm-10">
+			<input type="date" id="fcompra" name="fcompra" class="form-control">
+			</div>
+			</div>
+						
+			<div class="form-group">
+			<label for="estado" class="col-sm-2 control-label">Estado:</label>
+			<div class="col-sm-10">
+			<select name="estado" class="form-control">
+			<option value="1">Nuevo</option>
+			<option value="2">Usado</option>
+			<option value="3">De Baja</option>
+			</select>
+			</div>
+			</div>
+			
+			
+			<div class="form-group">
+			<label for="numfactura" class="col-sm-2 control-label">Numero de Factura:</label>
+			<div class="col-sm-10">
+			<input type="text" id="numfactura" name="numfactura" class="form-control">
+			</div>
+			</div>
+			
+			<div class="form-group">
+			<label for="modelo" class="col-sm-2 control-label">Modelo/Serie:</label>
+			<div class="col-sm-10">
+			<input type="text" id="modelo" name="modelo" class="form-control">
+			</div>
+			</div>
+			
+			<div class="form-group">
+			<label for="marca_hardware" class="col-sm-2 control-label">Marca:</label>
+			<div class="col-sm-10">
+			<input type="text" id="marca_hardware" name="marca_hardware" class="form-control">
+			</div>
+			</div>
+			
+			<div class="form-group">
+			<label for="codigo" class="col-sm-2 control-label">Codigo:</label>
+			<div class="col-sm-10">
+			<input type="text" id="codigo" name="codigo" class="form-control">
+			</div>
+			</div>
+			
+			<div class="form-group">
+			<label for="descripcion" class="col-sm-2 control-label">descripcion:</label>
+			<div class="col-sm-10">
+			<textarea rows="4" class="form-control" name="descripcion"></textarea>
+			</div>
+			</div>
+			
+			<div class="form-group">
+			<label for="persona" class="col-sm-2 control-label">Responsable:</label>
+			<div class="col-sm-10">
+			<input type="text" id="persona" name="persona" class="form-control">
+			</div>
+			</div>
+			
+			<div class="form-group">
+			<label for="area" class="col-sm-2 control-label">Area:</label>
+			<div class="col-sm-10">
+			<input type="text" id="area" name="area" class="form-control">
+			</div>
+			</div>
+			
+			
+			
+			<div class="form-group">
+			<div class="col-sm-10">
+			<input type="submit"  name="btnEnviar" class="btn btn-success" value="Registrar">
+			<input type="submit"  name="btnlimpiar" class="btn btn-info" value="Limpiar">
+			<input type="button" id="btnCancelar" class="btn btn-success" value="Cancelar">
+			</div>
+			</div>
+			
+			
+			
+			
+			</form>
+			</div>
+			</div>
+		</div>
+	</div>
+	
+	
+<div>
+	<div id= "divForms" align="center">
+	
+	<form action="/buscarActivo" id="form" class="form-inline" role="form" >
+	
+	<div class="form-group">
+	<label for="Anombre" class="col-sm-2 control-label">Buscar Nombre:</label>
+	<div class="col-sm-10">
+	<input type="text" id="Anombre" name="Anombre" class="form-control">
+	<input type="submit" id="btnBuscar" class="btn btn-primary" value="Buscar">
+	<input type="button" id="btnCrear" class="btn btn-success" value="Crear">
+	
+	</div>
+	</div>
+	</form>
+	
+	</div>
+</div>
+		
+	<div class="table-responsive">
+	<table class="table" id="tableActivo">
+	<thead>
+		<tr>
+			
+			<th>Nombre</th>
+			<th>Fecha de Compra</th>
+			<th>Estado</th>
+			<th>Numero de Fact</th>
+			<th>Modelo/Serie</th>
+			<th>Marca</th>
+			<th>Codigo</th>
+			<th>Descripcion</th>
+			<th>Responsable</th>
+			<th>Area</th>
+			<th>Opciones</th>
+			
+			<!--  <th>opciones</th>-->
+		</tr>	
+		</thead>
+		<tbody>	
+		{% for p in data %}
+		<tr>
+			
+			<td>{{p[1]}}</td>
+			<td>{{p[2]}}</td>
+			<td>{{p[3]}}</td>
+			<td>{{p[4]}}</td>
+			<td>{{p[5]}}</td>	
+			<td>{{p[6]}}</td>
+			<td>{{p[7]}}</td>
+			<td>{{p[8]}}</td>
+			<td>{{p[9]}}</td>
+			<td>{{p[10]}}</td>	
+			<td>
+			<a id="editar" class="btn btn-success" href="#">Editar</a>
+			<a id="eliminar" class="btn btn-success" href="/delActivos">X</a>
+			</td>
+											
+		</tr>
+		{% endfor %}	
+		</tbody>	
+		
+	</table>
+	</div>
+	
+	
+<script type="text/javascript">
+	$('#tableActivo').DataTable({
+		pagingType:"bootstrapPager",
+		pagerSettings:{ 
+			searchOnEnter:true,
+			language: "Pagina ~ of ~ Paginas"			
+		}
+	}
+	);
+	
+</script>	
+	
+<script type="text/javascript">
+$('#Anombre').autocomplete({
+		source:"/buscaractauto",
+		minLength:2
+		});
+</script>	
+	
+
+</body>
+
+{% endblock %}
