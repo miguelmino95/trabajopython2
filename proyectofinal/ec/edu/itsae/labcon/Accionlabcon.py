@@ -35,7 +35,7 @@ class Accionlabcon(DBconec.DBcon):
     def insertarActivo(self, nombre, fcompra, estado, nfactura, modelo_serie, marca_hardware, codigo, descripcion, responsable, area):
         con=self.conexion().connect()
         sql=""" insert into activos (nombre, fech_compra, estado, num_factura, modelo_serie, marca_hardware, codigo, descripcion, responsable, area) 
-        values('%s', '%s', '&s' , %i, '%s', '%s', '%s' , '%s', '%s'. '%s') """ % (nombre, fcompra, estado, nfactura, modelo_serie, marca_hardware, codigo, descripcion, responsable, area)
+        values( '%s', '%s', '%s', %i, '%s', '%s', '%s', '%s', '%s', '%s' ) """ %(nombre, fcompra, estado, nfactura, modelo_serie, marca_hardware, codigo, descripcion, responsable, area)
         print sql
         with con:
             cursor=con.cursor()
@@ -45,7 +45,7 @@ class Accionlabcon(DBconec.DBcon):
     def EliminarActivo(self, nombre, fcompra, estado, nfactura, modelo_serie, marca_hardware, codigo, descripcion, responsable, area):
         con=self.conexion().connect()
         sql=""" delete from activos where (nombre, fech_compra, estado, num_factura, modelo_serie, marca_hardware, codigo, descripcion, responsable, area) 
-        values('%s', '%s', '&s' , %i, '%s', '%s', '%s' , '%s', '%s'. '%s') """ % (nombre, fcompra, estado, nfactura, modelo_serie, marca_hardware, codigo, descripcion, responsable, area)
+        values('%s', '%s', '%s' , %i, '%s', '%s', '%s' , '%s', '%s' '%s') """ % (nombre, fcompra, estado, nfactura, modelo_serie, marca_hardware, codigo, descripcion, responsable, area)
         print sql
         with con:
             cursor=con.cursor()
