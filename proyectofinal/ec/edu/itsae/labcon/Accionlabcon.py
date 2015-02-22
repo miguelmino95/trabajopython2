@@ -33,11 +33,10 @@ class Accionlabcon(DBconec.DBcon):
         return reporte
     
     
-    def insertarActivo(self,nombre, fcompra, estado, numfactura, modelo, marca_hardware, codigo, descripcion, responsable, area):
+    def insertarActivo(self,nombre, fcompra, estado, modelo, marca_hardware, codigo, descripcion, responsable, area):
         con=self.conexion().connect()
-        sql=""" insert into activos(nombre, fech_compra, estado, num_factura, 
-                        modelo_serie, marca_hardware, codigo, descripcion, responsable, area)
-                         values('%s','%s','%s', %i ,'%s','%s','%s','%s','%s','%s')  """ % (nombre, fcompra, estado, numfactura, modelo, marca_hardware, codigo, descripcion, responsable, area)
+        sql=""" insert into activos(nombre, fech_compra, estado, modelo_serie, marca_hardware, codigo, descripcion, responsable, area)
+                         values('%s','%s','%s','%s','%s','%s','%s','%s','%s')  """ % (nombre, fcompra, estado, modelo, marca_hardware, codigo, descripcion, responsable, area)
         return sql
         with con:
             cursor=con.cursor()
@@ -45,13 +44,13 @@ class Accionlabcon(DBconec.DBcon):
             
     def buscarActivoDato(self, datobuscado):
         con=self.conexion().connect().cursor() 
-        con.execute(""" select * from activos where upper(CONCAT(nombre,' ', num_factura,' ', modelo_serie,' ', responsable,' ', area)) like upper('%s') """ %("%"+datobuscado+"%"))
+        con.execute(""" select * from activos where upper(CONCAT(nombre,' ', modelo_serie,' ', responsable,' ', area)) like upper('%s') """ %("%"+datobuscado+"%"))
         reporte=con.fetchall()
         return reporte
     
     def buscarActivoAuto(self, datobuscado):
         con=self.conexion().connect().cursor()
-        con.execute(""" select CONCAT(nombre,' ', num_factura,' ', modelo_serie,' ', responsable,' ', area) as value, idpersona as id from persona where upper (CONCAT(nombre,' ', num_factura,' ', modelo_serie,' ', responsable,' ', area)) like upper('%s')""" % ("%"+datobuscado+"%") )
+        con.execute(""" select CONCAT(nombre,'  ', modelo_serie,' ', responsable,' ', area) as value, idpersona as id from persona where upper (CONCAT(nombre,' ', num_factura,' ', modelo_serie,' ', responsable,' ', area)) like upper('%s')""" % ("%"+datobuscado+"%") )
         reporte=con.fetchall()
         columna=('value', 'id')
         lista=[]

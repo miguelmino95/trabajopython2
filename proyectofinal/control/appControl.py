@@ -25,7 +25,6 @@ def addActivos():
     nombre=request.form.get('nombre', type=str)
     fcompra=request.form.get('fech_compra', type=str)
     estado=request.form.get('estado', type=str)
-    numfactura=request.form.get('num_factura', type=int)
     modelo=request.form.get('modelo_serie', type=str)
     marca_hardware=request.form.get('marca_hardware', type=str)
     codigo=request.form.get('codigo', type=str)
@@ -33,7 +32,7 @@ def addActivos():
     responsable=request.form.get('responsable', type=str)
     area=request.form.get('area', type=str)
 
-    Accionlabcon.Accionlabcon().insertarActivo(nombre, fcompra, estado, numfactura, modelo, marca_hardware, codigo, descripcion, responsable, area)
+    Accionlabcon.Accionlabcon().insertarActivo(nombre, fcompra, estado, modelo, marca_hardware, codigo, descripcion, responsable, area)
     return redirect(url_for('reportarActivo'))
 
 
